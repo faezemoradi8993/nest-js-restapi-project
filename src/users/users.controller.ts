@@ -6,6 +6,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -34,9 +35,10 @@ export class UsersController {
   @ApiOkResponse({ type: User, isArray: false, description: 'the user' })
   @ApiNoContentResponse()
   @Get(':id')
-  getUserById(@Param('id') id: string): User {
-    //ToDo : auto parse id
-    const user = this.usersService.findById(Number(id));
+  getUserById(@Param('id', ParseIntPipe) id: number): User {
+    // https://docs.nestjs.com/pipes
+    console.log('--->', typeof id);
+    const user = this.usersService.findById(id);
     if (!user) {
       throw new NotFoundException();
       //       https://docs.nestjs.com/exception-filters
