@@ -8,7 +8,10 @@ export class UsersService {
     { id: 0, name: 'faeze' },
     { id: 1, name: 'maryam' },
   ];
-  findAll(): User[] {
+  findAll(name?: string): User[] {
+    if (name) {
+      return this.users.filter((user) => user.name === name);
+    }
     return this.users;
   }
   findById(userId: number): User {
